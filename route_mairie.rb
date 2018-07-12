@@ -1,5 +1,4 @@
 
-require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 
@@ -7,14 +6,14 @@ require 'open-uri'
 def get_the_email_of_a_townhal_from_its_webpage(page_url)
     page = Nokogiri::HTML(open(page_url))
  
-	return   page.css('td')[7].text
+	return   page.css('td')[7].text #recupere les td ou se trouve le mail
      
 end
 
 def get_all_the_urls_of_val_doise_townhalls()
 
 page = Nokogiri::HTML(open("http://www.annuaire-des-mairies.com/val-d-oise.html"))
-ville = page.css('p>a').map {|ville| ville.text
+ville = page.css('p>a').map {|ville| ville.text #recupere tout les a dans p pour les mettre dans ville
 
 }
  link = page.css('p>a').map {|vill| vill['href']} 
@@ -25,18 +24,18 @@ end
 
 
 
-def annuaire_mail_ville
+def 	annuaire_mail_ville
 	hash = []
 	i=0
 	
-array = get_all_the_urls_of_val_doise_townhalls
+	array = get_all_the_urls_of_val_doise_townhalls
 	villes=array[0]
 	@email = array[1].map{ |url|
-	get_the_email_of_a_townhal_from_its_webpage("http://www.annuaire-des-mairies.com/#{url}")}
+		get_the_email_of_a_townhal_from_its_webpage("http://www.annuaire-des-mairies.com/#{url}")}
 	villes.length.times do
 		hash += [{ "name" => villes[i], "email" => @email[i]}] 
 		i += 1
 	end
 	p hash
 	end
-	annuaire_mail_ville()
+		annuaire_mail_ville()
